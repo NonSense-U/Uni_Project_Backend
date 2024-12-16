@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Propaganistas\LaravelPhone\Rules\Phone;
 
 class RegisteredUserController extends Controller
 {
@@ -20,23 +21,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): Response
     {
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'phoneNumber'=>['required_without:email','string'],
-            'email' => [ 'required_without:phoneNumber','string', 'email', 'max:255', 'unique:'.User::class],
+            'phoneNumber' => ['required_without:email', 'string'], //! Must Update
+            'email' => ['required_without:phoneNumber', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
         $user = User::create([
             'name' => $request->name,
-            'phoneNumber' =>$request->phoneNumber,
+            'phoneNumber' => $request->phoneNumber,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
         ]);
         event(new Registered($user));
 
-        //! On hold ...
-        // Auth::login($user);
+        // //! For Testing
+        if ($request->auth) {
+            Auth::login($user);
+        }
         return response()->noContent();
     }
 }

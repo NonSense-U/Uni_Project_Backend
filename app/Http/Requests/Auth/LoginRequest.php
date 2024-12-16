@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Console\Input\Input;
 
 class LoginRequest extends FormRequest
 {
@@ -27,7 +28,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required_without:phoneNumber', 'string', 'email'],
+            'phoneNumber'=>['required_without:email','string'], //! Update Later
             'password' => ['required', 'string'],
         ];
     }
@@ -41,11 +43,19 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $identifier = null;
+
+        if($this->input('email')!=null)
+        {
+            $identifier = 'email';
+        }
+        else $identifier = 'phoneNumber';
+
+        if (! Auth::attempt($this->only($identifier, 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                $identifier => __('auth.failed'),
             ]);
         }
 
@@ -59,6 +69,13 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
+        
+        if($this->input('email')!=null)
+        {
+            $identifier = 'email';
+        }
+        else $identifier = 'phoneNumber';
+
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
@@ -68,7 +85,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
+            $identifier => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
