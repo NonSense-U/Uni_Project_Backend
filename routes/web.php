@@ -1,13 +1,19 @@
 <?php
 
+use App\Http\Middleware\RBAC;
 use Illuminate\Support\Facades\Route;
+
+foreach(glob(dirname(__FILE__).'/*/*', GLOB_NOSORT) as $route_file){
+    include $route_file;
+}
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
 require __DIR__.'/auth.php';
-Route::post('/test',function()
+
+Route::get('/test',function()
 {
-dd('Cool!');
+dd('2!');
 });
