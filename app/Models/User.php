@@ -19,10 +19,6 @@ class User extends Authenticatable
      */
 
     //! protected $fillable = [
-    //     'name',
-    //     'phoneNumber',
-    //     'email',
-    //     'password',
     // ];
 
     /**
@@ -47,4 +43,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class);
+    }
+
 }
