@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Location;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,9 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->id()->index();
+            $table->string('username')->unique();
+            $table->string('email')->unique()->nullable()->index();
             $table->string('phoneNumber')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phoneNumber_verified_at')->nullable();

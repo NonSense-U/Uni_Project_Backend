@@ -3,14 +3,22 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+
+    const ROLE_CLIENT = 'client';
+    const ROLE_STORE_OWNER = 'store';
+    const ROLE_ADMIN = 'admin';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -19,10 +27,6 @@ class User extends Authenticatable
      */
 
     //! protected $fillable = [
-    //     'name',
-    //     'phoneNumber',
-    //     'email',
-    //     'password',
     // ];
 
     /**
@@ -47,4 +51,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function storeOwner()
+    {
+        return $this->hasOne(StoreOwner::class);
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+
 }

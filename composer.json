@@ -13,7 +13,8 @@
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "propaganistas/laravel-phone": "^5.3"
+        "propaganistas/laravel-phone": "^5.3",
+        "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -54,7 +55,7 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "dev": "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+        "dev": "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" --names='server,queue'"
     },
     "extra": {
         "laravel": {
