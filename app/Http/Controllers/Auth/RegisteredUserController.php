@@ -27,7 +27,7 @@ class RegisteredUserController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
             'phoneNumber' => ['required_without:email', 'string', 'unique:' . User::class], //! Must Update
             'email' => ['required_without:phoneNumber', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'role' => ['string','in:customer,store,admin'],
+            'role' => ['string','in:customer,store_owner,admin'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -53,17 +53,12 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        if ($request->role === 'storeOwner') {
+        if ($request->role === 'store_owner') {
 
-            $user->assignRole('store_owner');
-
-            $request->validate([
-                'storeName' => ['required', 'string', 'max:64'],
-            ]);
+            $user->assignRole($request->role);
 
             StoreOwner::create([
                 'user_id' => $user->id,
-                'storeName' => $request->storeName
             ]);
         }
 
