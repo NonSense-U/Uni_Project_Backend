@@ -26,6 +26,8 @@ class RegisteredUserController extends Controller
         $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
             'phoneNumber' => ['required_without:email', 'string', 'unique:' . User::class], //! Must Update
+            'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
+            'phoneNumber' => ['required_without:email', 'string', 'unique:' . User::class], //! Must Update
             'email' => ['required_without:phoneNumber', 'string', 'email', 'max:255', 'unique:' . User::class],
             'role' => ['string','in:customer,store_owner,admin'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
