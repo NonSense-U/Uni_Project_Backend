@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //! Review
         then: function () {
             Route::middleware('web')->prefix('store')->group(base_path('routes/store.php'));
+            Route::middleware('web')->prefix('profile')->group(base_path('routes/profile.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

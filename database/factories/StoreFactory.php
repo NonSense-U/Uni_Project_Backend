@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\StoreOwner;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class StoreFactory extends Factory
     public function definition(): array
     {
         return [
-            
+            'store_owner_id' => StoreOwner::factory(),
+            'storeName' => fake()->company()
         ];
     }
 }
