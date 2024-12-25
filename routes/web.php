@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\RBAC;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
 foreach(glob(dirname(__FILE__).'/*/*', GLOB_NOSORT) as $route_file){

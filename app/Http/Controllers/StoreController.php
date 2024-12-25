@@ -5,23 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
+use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+
+    public function searchByName(Request $request)
+    {
+        $validated = $request->validate([
+            'storeName' => 'required|string|max:255',
+        ]);
+
+        $stores = Store::where('storeName', 'like', '%' . $validated['storeName'] . '%')->get();
+
+        return response()->json($stores);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return response()->json(Store::all());
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -29,7 +43,17 @@ class StoreController extends Controller
      */
     public function store(StoreStoreRequest $request)
     {
-        //
+        $request->validate([
+            'storeName' => ['required','string','max:255'],
+            'rating' => ['nullable']
+        ]);
+        Store::create([
+            'storeName' => $request->storeName,
+            'rating' => $request->rating,
+            'store_owner_id' => $request->user()->storeOwner->id
+        ]);
+
+        return response()->noContent();
     }
 
     /**
@@ -37,7 +61,7 @@ class StoreController extends Controller
      */
     public function show(Store $store)
     {
-        //
+        
     }
 
     /**

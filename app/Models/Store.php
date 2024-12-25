@@ -13,4 +13,14 @@ class Store extends Model
     {
         return $this->belongsTo(StoreOwner::class);
     }
+
+    public function inventories()
+    {
+        return $this->has(StoreInventory::class);
+    }
+
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, StoreInventory::class);
+    }
 }
