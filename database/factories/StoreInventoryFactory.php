@@ -23,7 +23,6 @@ class StoreInventoryFactory extends Factory
             'product_id' => Product::factory(), // Generates a product and associates it
             'quantity' => $this->faker->numberBetween(1, 100),
             'price' => fake()->numberBetween(100,1000),
-            // 'rating' => $this->faker->randomFloat(1, 1, 5), // 1 decimal point between 1 and 5
         ];
     }
 }

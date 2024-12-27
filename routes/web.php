@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,6 +15,14 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::get('/myrole',function()
+{
+    $user = User::find(Auth::id());
+    dd($user->getRoleNames());
+})->middleware('auth');
+
 
 Route::get('/test',function()
 {

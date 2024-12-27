@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(StoreOwner::class)->constrained()->cascadeOnDelete();
             $table->string("storeName");
-            $table->float('Rating')->nullable();
+            $table->float('stars',1)->nullable();
             $table->timestamps();
         });
 

@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         $role = Role::firstOrCreate(['name' => 'admin']);
         $user->assignRole($role);
 
+        $this->call(TransactionSeeder::class);
+
     }
 }

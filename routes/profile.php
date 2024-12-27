@@ -3,5 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/uplaod-pic',[ProfileController::class, 'upload-pic'])
+Route::post('/upload-pic',[ProfileController::class, 'upload_pic'])
+->middleware('auth');
+
+Route::post('/delete-pic',[ProfileController::class, 'delete_pic'])
 ->middleware('auth');

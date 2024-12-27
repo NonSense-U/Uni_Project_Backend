@@ -57,9 +57,9 @@ class User extends Authenticatable
         return $this->hasOne(StoreOwner::class);
     }
 
-    public function client()
+    public function customer()
     {
-        return $this->hasOne(Client::class);
+        return $this->hasOne(Customer::class);
     }
 
 }
